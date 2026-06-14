@@ -1,17 +1,21 @@
 from fastapi import APIRouter
+from fastapi import Depends
 
-from app.agent import CustomerSupportAgent
+from sqlalchemy.orm import Session
+
 from app.models.chat_models import (ChatRequest, ChatResponse)
+from app.services.chat_service import ChatService
+from app.database.session import (get_db)
 
 router = APIRouter()
 
-agent = CustomerSupportAgent()
+chat_service = ChatService()
 
 
 @router.post("/chat", response_model=ChatResponse)
 
-def chat(request: ChatRequest) -> ChatResponse:
+def chat(request: ChatRequest, db: Session = Depends(get_db)) -> ChatResponse:
 
-    answer = agent.ask(request.message)
+    answer = chat_service.process_message(db=db, message=request.message)
 
     return ChatResponse(response=answer)
