@@ -1,5 +1,7 @@
 import os
 
+import uuid
+
 from app.documents.pdf_reader import (PDFReader)
 
 from app.documents.chunker import (TextChunker)
@@ -33,8 +35,11 @@ class DocumentService:
 
             embedding = (self.embedding_service.create_embedding(chunk))
 
-            chunk_id = (f"{filename}_{index}")
+            chunk_id = (
+                f"{filename}_{index}_"
+                f"{uuid.uuid4().hex[:8]}"
+            )
 
-            self.chroma_service.add_chunk(chunk_id=chunk_id, text=chunk, embedding=embedding)
+            self.chroma_service.add_chunk(chunk_id=chunk_id, text=chunk, embedding=embedding, source=filename)
 
         return len(chunks)

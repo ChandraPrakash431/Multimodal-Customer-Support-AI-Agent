@@ -21,12 +21,29 @@ class RAGService:
 
         documents = (results["documents"][0])
 
-        context = "\n\n".join(documents)
+        metadatas = (results["metadatas"][0])
+
+        context_parts = []
+
+        for doc, meta in zip(documents, metadatas):
+
+            source = meta.get("source", "Unknown")
+
+            context_parts.append(f"""
+            SOURCE: {source}
+
+            CONTENT:{doc}
+            """)
+
+        context = "\n\n".join(context_parts)
 
         prompt = f"""
-        You are a customer support assistant.
+        You are a customer support AI.
 
-        Use ONLY the provided context.
+        Answer ONLY using the supplied context.
+
+        If the answer exists in the context,
+        mention the source document.
 
         Context:
 
@@ -36,5 +53,5 @@ class RAGService:
 
         {question}
         """
-
+        print(results["metadatas"])
         return ask_gemini_with_context(prompt)

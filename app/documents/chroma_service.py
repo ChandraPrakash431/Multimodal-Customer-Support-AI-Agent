@@ -15,10 +15,12 @@ class ChromaService:
             )
         )
 
-    def add_chunk(self, chunk_id: str, text: str, embedding: list[float]):
+    def add_chunk(self, chunk_id: str, text: str, embedding: list[float], source: str):
 
-        self.collection.add(ids=[chunk_id], documents=[text], embeddings=[embedding])
+        self.collection.add(ids=[chunk_id], documents=[text], embeddings=[embedding], metadatas=[{
+            "source": source
+        }])
 
     def search(self, embedding: list[float], top_k: int = 3):
 
-        return self.collection.query(query_embeddings=[embedding], n_results=top_k)
+        return self.collection.query(query_embeddings=[embedding], n_results=top_k, include=["documents", "metadatas", "distances"])
