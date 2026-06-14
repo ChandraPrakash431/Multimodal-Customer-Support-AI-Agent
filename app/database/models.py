@@ -16,6 +16,8 @@ class Conversation(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
+    session_id: Mapped[str] = mapped_column(String, index=True)
+
     user_message: Mapped[str] = mapped_column(String)
 
     ai_response: Mapped[str] = mapped_column(String)

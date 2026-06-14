@@ -16,6 +16,6 @@ chat_service = ChatService()
 
 def chat(request: ChatRequest, db: Session = Depends(get_db)) -> ChatResponse:
 
-    answer = chat_service.process_message(db=db, message=request.message)
+    answer = chat_service.process_message(db=db, session_id=request.session_id, message=request.message)
 
     return ChatResponse(response=answer)
