@@ -24,3 +24,10 @@ class ChromaService:
     def search(self, embedding: list[float], top_k: int = 3):
 
         return self.collection.query(query_embeddings=[embedding], n_results=top_k, include=["documents", "metadatas", "distances"])
+    
+    def search_text(self, query_embedding: list[float], top_k: int = 3):
+        return self.collection.query(
+            query_embeddings=[query_embedding],
+            n_results=top_k,
+            include=["documents", "metadatas"]
+        )

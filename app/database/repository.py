@@ -29,3 +29,21 @@ class ConversationRepository:
             )
             .all()
         )
+    
+    def get_recent_messages(self, db: Session, session_id: str, limit: int = 10):
+        return (
+            db.query(Conversation)
+            .filter(Conversation.session_id == session_id)
+            .order_by(Conversation.id.desc())
+            .limit(limit)
+            .all()
+        )
+
+    def get_recent_messages(self, db: Session, session_id: str, limit: int = 10):
+        return (
+            db.query(Conversation)
+            .filter(Conversation.session_id == session_id)
+            .order_by(Conversation.id.desc())
+            .limit(limit)
+            .all()
+        )
