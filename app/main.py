@@ -1,23 +1,12 @@
-from agent import CustomerSupportAgent
+from fastapi import FastAPI
 
+from app.routes.chat_routes import router
 
-agent = CustomerSupportAgent()
+app = FastAPI(title="Customer Support AI Agent", version="1.0.0")
 
+app.include_router(router)
 
-print("Customer Support Agent Started")
-print("Type 'exit' to quit\n")
+@app.get("/health")
 
-
-while True:
-
-    prompt = input("You: ")
-
-    if prompt.lower() == "exit":
-        print("\nGoodbye!")
-        break
-
-    answer = agent.ask(prompt)
-
-    print("\nAI:")
-    print(answer)
-    print()
+def health():
+    return {"status": "healthy"}

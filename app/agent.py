@@ -1,4 +1,4 @@
-from gemini_client import create_chat
+from app.gemini_client import create_chat
 
 
 class CustomerSupportAgent:
@@ -9,8 +9,6 @@ class CustomerSupportAgent:
 
     def ask(self, prompt: str) -> str:
 
-        response = self.chat.send_message(
-            message=prompt
-        )
+        response = self.chat.send_message(message=prompt)
 
         return response.text
